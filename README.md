@@ -25,11 +25,11 @@ Open the release Assets and download `SchlierenEye-Setup-2.0.0-x64.exe`. Run the
 
 Install a newer release over the existing installation. Existing settings are preserved. Settings and generated results remain after uninstall.
 
-## Проверка и установка
+## Verification and installation
 
-Скачайте установщик из раздела **Releases → Assets**. Python устанавливать не нужно. Установка выполняется для текущего пользователя без прав администратора.
+Download the installer from the **Releases → Assets** section. Python does not need to be installed. The installation is performed for the current user without administrator privileges.
 
-Рядом с установщиком опубликован файл `.sha256` для проверки контрольной суммы. Установщик не подписан цифровой подписью.
+A `.sha256` file is published next to the installer to verify the checksum. The installer is not digitally signed.
 
 ## Reporting problems
 
