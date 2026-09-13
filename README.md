@@ -39,6 +39,22 @@ Download the installer from **Assets**. GitHub's automatically generated “Sour
 
 ## Quick start
 
+### Download sample data
+
+Sample inputs are available as separate assets in [release 2.1.0](https://github.com/DeodatGautier/SchlierenEye/releases/tag/v2.1.0). Download them to any local folder; they are not bundled with the installer.
+
+| File | Purpose | Size |
+| --- | --- | --- |
+| [reference.jpg](https://github.com/DeodatGautier/SchlierenEye/releases/download/v2.1.0/reference.jpg) | Reference image, 1824 × 1824 pixels | 4.8 MB |
+| [disturbed.jpg](https://github.com/DeodatGautier/SchlierenEye/releases/download/v2.1.0/disturbed.jpg) | Matching disturbed image, 1824 × 1824 pixels | 4.8 MB |
+| [convection.mp4](https://github.com/DeodatGautier/SchlierenEye/releases/download/v2.1.0/convection.mp4) | Video for video processing and Stacking, 2496 × 2160 pixels, 25 fps, approximately 30 seconds | 165.2 MB |
+
+For a first check, select **Image** and **Optical Flow**, assign `reference.jpg` to **Reference** and `disturbed.jpg` to **Disturbed**, choose an output directory, and click **Start Processing**. A successful run saves `bos_result.png` in that directory.
+
+To try video processing, load `convection.mp4`, select **Single frame** with reference frame **0**, and start with **Range**, **From 0 / To 50**. This processes the first two seconds and saves `bos_results.mp4`. Select **Whole** when you are ready to process the complete recording. The same video can be used in **Stacking** to generate an x-t or y-t diagram.
+
+These files are provided for a functional check. For physical measurements, enter the correct pixel size and use the calibration appropriate to the experiment; default settings are not a calibration of the sample data.
+
 ### Analyze an image pair
 
 1. In **Processing**, select **Image** and choose **Optical Flow** or **FFT Correlation**.
@@ -107,6 +123,16 @@ Get-FileHash -Algorithm SHA256 .\SchlierenEye-Setup-2.1.0-x64.exe
 ```
 
 Compare the `Hash` value with the matching `.sha256` file. A matching checksum confirms that the file matches the published checksum; it is not a digital signature.
+
+## Research publication
+
+SchlierenEye was used to obtain results reported in the following peer-reviewed publication:
+
+Kurilov, A. D., Krasnov, P. A., Zubkov, S. A., Vasilchikova, E. N., Kuleshova, Yu. D., and Belyaev, V. V. (2026). **Harnessing the programmable potential of modern LCDs for sub-micron displacement measurement in gas flow visualization.** *Experiments in Fluids*, **67**, article 142. [DOI: 10.1007/s00348-026-04296-x](https://doi.org/10.1007/s00348-026-04296-x) · [Publisher PDF](https://link.springer.com/content/pdf/10.1007/s00348-026-04296-x.pdf).
+
+The study uses a programmable LCD background and multichannel optical flow for BOS measurements of gas jets. It also describes a separate ray-tracing inversion procedure; that procedure is not included in this application's displacement-analysis interface.
+
+If you use SchlierenEye in research, please cite this article and state the application version and processing settings used.
 
 ## Reporting problems
 
