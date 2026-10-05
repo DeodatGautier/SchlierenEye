@@ -11,12 +11,27 @@ This repository provides application downloads and documentation. Application so
 ## Download and install
 
 1. Open the [latest release](https://github.com/DeodatGautier/SchlierenEye/releases/latest) and expand **Assets**.
-2. Download `SchlierenEye-Setup-<version>-x64.exe` — for example, `SchlierenEye-Setup-2.1.0-x64.exe`.
+2. Download `SchlierenEye-Setup-<version>-x64.exe` — for example, `SchlierenEye-Setup-2.2.0-x64.exe`.
 3. Run the installer, then launch **SchlierenEye** from the Start menu or the optional desktop shortcut.
 
 The Windows distribution supports **Windows 10/11, x64**. Python is not required. Installation is per user and does not require administrator privileges. The installer offers English and Russian; the application interface uses English labels.
 
 Download the installer from **Assets**. GitHub's automatically generated “Source code” archives are not application installers.
+
+## Changes in 2.2.0
+
+- **New methods:** FCD for backgrounds with two independent periodic carriers and Affine DIC for local translation and deformation, including intensity/contrast normalization.
+- **Improved FFT Correlation:** linear normalized matching replaces circular correlation; RGB channels share a correlation surface, with subpixel refinement, texture/peak checks and exported quality masks.
+- **Corrected Optical Flow:** displacements are evaluated from the disturbed image toward the reference at the correct coordinates. The internal profile was checked on full-resolution experimental images after a previous tuning variant produced false matches.
+- **Quality and spatial resolution:** internal Optical Flow, FFT Correlation and Affine DIC profiles were reassessed using 3,264 synthetic calculations, spatial-frequency and zero-motion tests, and native-resolution experimental frames. Denser or smoother fields are not treated as proof of better resolution.
+- **Optional GPU calculations:** OpenCL for Optical Flow and CUDA/CuPy for FFT Correlation, FCD, Affine DIC and Absolute Difference, with CPU fallback and actual-backend metadata. GPU acceleration depends on the driver and workload and may be slower than CPU for FFT or DIC.
+- **Video reliability:** corrected exported frame sizes and bounded the number of frames being processed simultaneously.
+- **Simpler interface:** all algorithm parameters use internal profiles; calibration and general processing options remain available. The duplicate title above the tabs was removed; the method is named **Affine DIC**.
+- **Windows appearance:** automatic light/dark theme, hover highlighting in lists and a new eye icon matching the interface.
+- **Reproducible evaluation:** expanded all-method synthetic comparisons distinguish accuracy, spatial resolution, rejected vectors and execution time. Absolute Difference remains an intensity diagnostic and is not ranked as a displacement estimator.
+- **Build and update checks:** application, executable and installer share one version; installer creation rejects stale builds. Packaged dependency checks cover RAW and scientific exports, and updates preserve existing configuration files.
+
+See the [complete 2.2.0 release notes](https://github.com/DeodatGautier/SchlierenEye/releases/tag/v2.2.0) and [changelog](CHANGELOG.md).
 
 ## Changes in 2.1.0
 
@@ -29,7 +44,7 @@ Download the installer from **Assets**. GitHub's automatically generated “Sour
 
 - **Image pairs:** compare a reference photograph with a disturbed photograph.
 - **Video analysis:** process a selected frame range or an entire recording against a fixed or median reference, or compare consecutive frames.
-- **Displacement estimation:** dense Farnebäck optical flow and subpixel FFT correlation.
+- **Displacement estimation:** dense Farnebäck optical flow, subpixel FFT correlation, FCD and local Affine DIC.
 - **Intensity comparison:** absolute-difference visualization for qualitative analysis.
 - **Field visualization:** magnitude and u/v component maps, plus curved, color-coded arrows over a grayscale photograph.
 - **x-t and y-t diagrams:** track magnitude or a displacement component along a horizontal or vertical image line.
@@ -57,9 +72,9 @@ These files are provided for a functional check. For physical measurements, ente
 
 ### Analyze an image pair
 
-1. In **Processing**, select **Image** and choose **Optical Flow** or **FFT Correlation**.
+1. In **Processing**, select **Image** and choose a displacement method. FCD requires two independent periodic carriers; use Optical Flow, FFT Correlation or Affine DIC for random textures.
 2. In **Input**, select the **Reference** and **Disturbed** images. Both must have matching dimensions.
-3. In **Processing**, set **Pixel size** for your camera in micrometres and choose **Color mode**. For both **Optical Flow** and **FFT Correlation**, **Grayscale** estimates displacement from luminance; **Multichannel RGB** estimates displacement separately in each RGB channel and averages the resulting components.
+3. In **Processing**, set **Pixel size** for your camera in micrometres and choose **Color mode**. Grayscale uses luminance; multichannel processing uses the RGB channels. FFT combines normalized correlation surfaces before selecting one displacement; other vector methods combine channel estimates.
 4. In **Output**, choose a result directory. Enable **Save NetCDF for image pair** if you need numerical data, and **Save displacement components (u, v)** for component maps and the vector overlay.
 5. Click **Start Processing** and inspect the saved results.
 
@@ -112,6 +127,18 @@ Close SchlierenEye and run the newer installer to update the existing installati
 
 The current graphical interface starts with built-in defaults and empty input paths. Preserving the configuration file does not restore the previous GUI session. Keep exported configuration records together with your source data and results for reproducibility.
 
+### GPU processing
+
+The 2.2.0 Windows installer includes the optional CuPy backend. Select the compute backend in the general processing settings. Optical Flow uses OpenCV OpenCL when a supported device is available; the other methods use CUDA/CuPy on compatible NVIDIA hardware. If initialization or execution fails, processing falls back to CPU and records the reason. CUDA libraries and the installed graphics driver must be compatible with the packaged backend.
+
+GPU support is not a promise of a fixed speedup. On the GTX 1060 used for the latest 384 × 384 RGB checks, Optical Flow benefited from OpenCL, while the current FFT Correlation and Affine DIC were slower on CUDA than on CPU. The historical approximately 77× FFT figure belongs to an earlier circular-correlation implementation and does not describe 2.2.0.
+
+### Internal profiles
+
+Algorithm controls are hidden in the interface. The general settings, color mode and calibration remain available. Processing configuration records retain the internal parameters for reproducibility.
+
+An additional configuration, `bos/bos_config_texture_detail.json`, is included for FFT Correlation on nonperiodic textures. It uses a smaller correlation window and was more accurate on the tested random/natural textures, but produced more false displacement on noisy checkerboards. It is an optional profile, not the default or a universal improvement. The standard profile remains the balanced choice across background types.
+
 ## Verify a download
 
 The installer is **not digitally signed**. Download the matching `.sha256` file from the release assets to verify the installer checksum.
@@ -119,7 +146,7 @@ The installer is **not digitally signed**. Download the matching `.sha256` file 
 To calculate the checksum in PowerShell, run this command in the download directory, replacing the filename with the version you downloaded:
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\SchlierenEye-Setup-2.1.0-x64.exe
+Get-FileHash -Algorithm SHA256 .\SchlierenEye-Setup-2.2.0-x64.exe
 ```
 
 Compare the `Hash` value with the matching `.sha256` file. A matching checksum confirms that the file matches the published checksum; it is not a digital signature.
