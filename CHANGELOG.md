@@ -1,5 +1,16 @@
 # SchlierenEye 2.2.0
 
+## Windows build update — 13 October 2026
+
+- Refined panels, tabs, spacing, parameter fields and preview hints in both Windows themes, retaining the scientific layout and orange accents.
+- Added drag and drop in Source and the Input fields. One image in Source selects Disturbed; two images select Reference and Disturbed in drop order. A video selects Video mode and previews a frame. Dropping files does not start processing.
+- The Output directory field accepts a dropped folder.
+- Source now displays supported camera RAW files (CR3, CR2, NEF, ARW), whether selected by browsing or drag and drop. Preview uses the existing decoder and RAW settings, with RGB channels preserved.
+- Unsupported, missing and mixed file drops are rejected; RAW decode failures are reported in the status bar.
+- The rebuilt installer retains version **2.2.0**. Displacement algorithms, processing profiles and scientific exports are unchanged by this interface/input update.
+
+## Original 2.2.0 release
+
 Changes since **2.1.0**.
 
 ## Displacement algorithms

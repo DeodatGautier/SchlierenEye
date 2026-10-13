@@ -18,6 +18,24 @@ The Windows distribution supports **Windows 10/11, x64**. Python is not required
 
 Download the installer from **Assets**. GitHub's automatically generated “Source code” archives are not application installers.
 
+## Updated Windows build — 13 October 2026
+
+The refreshed **2.2.0** installer adds a more consistent interface in both light
+and dark themes, **drag-and-drop input**, and **camera RAW previews in Source**.
+Displacement algorithms, internal processing profiles and numerical exports
+retain the behavior of 2.2.0.
+
+Drop one image onto **Source** to select it as Disturbed, or two images to select
+Reference and Disturbed in drop order. Dropping a video selects Video mode and
+previews a frame. Files can also be dropped directly into the corresponding
+Input fields; the Output directory field accepts a folder. Processing starts
+when you click **Start Processing**.
+
+Source now previews **CR3, CR2, NEF and ARW** files selected with the browse
+buttons or drag and drop, using the application's existing RAW settings.
+The updated installer and matching SHA256 file are available in
+[release 2.2.0](https://github.com/DeodatGautier/SchlierenEye/releases/tag/v2.2.0).
+
 ## Changes in 2.2.0
 
 - **New methods:** FCD for backgrounds with two independent periodic carriers and Affine DIC for local translation and deformation, including intensity/contrast normalization.
